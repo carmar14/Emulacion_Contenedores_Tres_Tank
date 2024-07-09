@@ -6,10 +6,13 @@ const char* ssid = "your_SSID";
 const char* password = "your_PASSWORD";
 WiFiUDP Udp;
 unsigned int localPort = 8888;
+const char* controlCenterIP = "192.168.1.100"; // IP del centro de control
+const unsigned int controlCenterPort = 8889;
 
-// Pines de entrada
+// Pines de entrada y salida
 const int entrada1Pin = 34; // GPIO34 (ADC1)
 const int entrada2Pin = 35; // GPIO35 (ADC1)
+const int salidaPin = 25;   // GPIO25 (DAC1)
 
 // Variables de estado
 float x1 = 0; // Estado del tanque 1
@@ -107,6 +110,14 @@ void setup() {
 }
 
 void loop() {
+
+  // Leer estados de los otros ESP32
+  x2 = analogRead(32) * 3.3 / 4095.0; // GPIO32 (ADC1)
+  x3 = analogRead(33) * 3.3 / 4095.0; // GPIO33 (ADC1)
+
+  // Actualizar estado x1
+  x1 = a11 * x1 + a12 * x2 + a13 * x3 + b11 * u1 + b12 * u2;
+
   // Leer entradas-----algoritmo de control
   
   //u1 = analogRead(entrada1Pin) * 3.3 / 4095.0;
@@ -123,7 +134,7 @@ void loop() {
   ai1_k1 = ai1;
   ai2_k1 = ai2;
 
-
+  /*
   // Recibir estados de los otros ESP32
   int packetSize = Udp.parsePacket();
   if (packetSize) {
@@ -132,18 +143,21 @@ void loop() {
       incomingPacket[len] = 0;
     }
     sscanf(incomingPacket, "x2:%f x3:%f", &x2, &x3);
-  }
+  }*/
 
   // Actualizar estado x1
-  x1 = a11 * x1 + a12 * x2 + a13 * x3 + b11 * u1 + b12 * u2;
+  //x1 = a11 * x1 + a12 * x2 + a13 * x3 + b11 * u1 + b12 * u2;
 
   Serial.print("Estado x1: ");
   Serial.println(x1);
 
-  // Enviar el estado x1
-  char buffer[50];
-  int buffer_length = sprintf(buffer, "x1:%f", x1);
-  Udp.beginPacket("192.168.1.101", 8888); // IP del ESP32 2
+  // Enviar el estado x1 a través del DAC
+  dacWrite(salidaPin, x1 * 255 / 3.3); // Convertir x1 a un valor de 0-255 para el DAC
+
+  // Enviar el estado y acciones de control al centro de control
+  char buffer[100];
+  int buffer_length = sprintf(buffer, "x1:%f,u1:%f,u2:%f", x1, u1, u2);
+  Udp.beginPacket(controlCenterIP, controlCenterPort);
   Udp.write((uint8_t*)buffer, buffer_length);
   Udp.endPacket();
 
