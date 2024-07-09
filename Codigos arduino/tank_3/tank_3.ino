@@ -12,9 +12,9 @@ const int entrada1Pin = 34; // GPIO34 (ADC1)
 const int entrada2Pin = 35; // GPIO35 (ADC1)
 
 // Variables de estado
-float x1 = 0; // Estado del tanque 1
+float x1 = 0; // Estado del tanque 1 recibido
 float x2 = 0; // Estado del tanque 2 recibido
-float x3 = 0; // Estado del tanque 3 recibido
+float x3 = 0; // Estado del tanque 3 
 float u1 = 0;
 float u2 = 0;
 
@@ -27,8 +27,8 @@ float q1 = 0.4;
 float q2 = 0.2;
 
 // Matrices del sistema
-const float a11 = 0.9888, a12 = 0.0001, a13 = 0.0112;
-const float b11 = 64.5687 , b12 = 0.0014;
+const float a31 = 0.0112, a32 = 0.0111, a33 = 0.9776;
+const float b31 = 0.365 , b32 = 0.3637;
 
 // Matrices del controlador
 float K1[2][3] = {
@@ -94,7 +94,7 @@ void controlador(float* u, float* ai1, float* ai2, float x1, float x2, float x3,
 }
 
 
-void setup() {
+void setup(){
   Serial.begin(115200);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -131,19 +131,19 @@ void loop() {
     if (len > 0) {
       incomingPacket[len] = 0;
     }
-    sscanf(incomingPacket, "x2:%f x3:%f", &x2, &x3);
+    sscanf(incomingPacket, "x1:%f x2:%f", &x1, &x2);
   }
 
-  // Actualizar estado x1
-  x1 = a11 * x1 + a12 * x2 + a13 * x3 + b11 * u1 + b12 * u2;
+  // Actualizar estado x3
+  x3 = a31 * x1 + a32 * x2 + a33 * x3 + b31 * u1 + b32 * u2;
 
-  Serial.print("Estado x1: ");
-  Serial.println(x1);
+  Serial.print("Estado x3: ");
+  Serial.println(x3);
 
-  // Enviar el estado x1
+  // Enviar el estado x3
   char buffer[50];
-  int buffer_length = sprintf(buffer, "x1:%f", x1);
-  Udp.beginPacket("192.168.1.101", 8888); // IP del ESP32 2
+  int buffer_length = sprintf(buffer, "x3:%f", x3);
+  Udp.beginPacket("192.168.1.100", 8888); // IP del ESP32 1
   Udp.write((uint8_t*)buffer, buffer_length);
   Udp.endPacket();
 
