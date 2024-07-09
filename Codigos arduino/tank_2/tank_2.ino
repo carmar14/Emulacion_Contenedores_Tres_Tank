@@ -127,7 +127,7 @@ void loop() {
   float ai1, ai2;
   controlador(u, &ai1, &ai2, x1, x2, x3, q1, q2, ai1_k1, ai2_k1);
   u1 = u[0];
-  u2 = u[1];
+  u2 = u[1]; 
 
   // Actualizar las acciones de control previas
   ai1_k1 = ai1;
