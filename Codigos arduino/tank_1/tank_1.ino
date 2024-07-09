@@ -19,8 +19,8 @@ float u1 = 0;
 float u2 = 0;
 
 // Matrices del sistema
-const float a11 = 1.0, a12 = 0.1, a13 = 0.1;
-const float b11 = 0.05, b12 = 0.05;
+const float a11 = 0.9888, a12 = 0.0001, a13 = 0.0112;
+const float b11 = 64.5687 , b12 = 0.0014;
 
 // Variables UDP
 char incomingPacket[255];  // buffer for incoming packets
