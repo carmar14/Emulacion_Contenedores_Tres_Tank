@@ -23,7 +23,7 @@ float u2 = 0;
 
 // Acciones de control previas
 float ai1_k1 = 0;
-float ai2_k1 = 0;
+float ai2_k1 = 0; 
 
 // Puntos de consigna
 float q1 = 0.4;
