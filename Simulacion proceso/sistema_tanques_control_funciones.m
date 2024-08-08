@@ -7,8 +7,8 @@ t=0:3000;
 %referencia acorde al punto de equilibrio Y0=[Y10; Y20;Y30]  Y10=0.400; Y20=0.200; Y30=0.300;
 r1=[0.4*ones(1,250) 0.45*ones(1,1250) 0.4*ones(1,1000) 0.45*ones(1,501)];
 r2=[0.2*ones(1,400) 0.225*ones(1,1600) 0.2*ones(1,1001)];
-r1=[0.35*ones(1,250) 0.42*ones(1,1250) 0.38*ones(1,1000) 0.47*ones(1,501)];
-r2=[0.21*ones(1,400) 0.22*ones(1,1600) 0.18*ones(1,1001)];
+%r1=[0.35*ones(1,250) 0.42*ones(1,1250) 0.38*ones(1,1000) 0.47*ones(1,501)];
+%r2=[0.21*ones(1,400) 0.22*ones(1,1600) 0.18*ones(1,1001)];
 t=t';
 r1=r1'; %vector columna ref 1
 r2=r2'; %vector columna ref 2
