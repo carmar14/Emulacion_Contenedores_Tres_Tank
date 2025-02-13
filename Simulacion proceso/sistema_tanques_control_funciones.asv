@@ -33,8 +33,8 @@ ai2=0;
 ai1_k1=0;
 ai2_k1=0;
 
-%Condiciones iniciales: niveles iniciales del tanque
-x=[0.2 0.2 0.1]';
+%Condiciones iniciales
+x=[0.2 0 0]';
 
 
 %Proceso con controlador
@@ -51,7 +51,7 @@ for i=1:n-1
     %calculo los estados
     xk1=proceso(u,x);
     
-    %actualizo los estados;niveles de los tanques
+    %actualizo los estados
     x=xk1;
     x1(i+1)=x(1);
     x2(i+1)=x(2);
