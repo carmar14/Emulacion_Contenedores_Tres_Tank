@@ -33,9 +33,13 @@ ai2=0;
 ai1_k1=0;
 ai2_k1=0;
 
-%Condiciones iniciales
-x=[0.2 0 0]';
+%Condiciones iniciales: niveles iniciales del tanque
+x=[0.2 0.2 0.1]';
 
+%caudales entre tanques
+q13 = zeros(n,1);
+q32 = zeros(n,1);
+q20 = zeros(n,1);
 
 %Proceso con controlador
 for i=1:n-1
@@ -51,11 +55,16 @@ for i=1:n-1
     %calculo los estados
     xk1=proceso(u,x);
     
-    %actualizo los estados
+    %actualizo los estados;niveles de los tanques
     x=xk1;
     x1(i+1)=x(1);
     x2(i+1)=x(2);
     x3(i+1)=x(3);
+
+    %caudales entre tanques
+    q13(i) = 0.5*5e-5*(x(1)-x(3))*sqrt(2*9.8*abs(x(3)-x(1)));
+    q32(i) = 0.5*5e-5*(x(3)-x(3))*sqrt(2*9.8*abs(x(3)-x(1)));
+    q13(i) = 0.5*5e-5*(x(1)-x(3))*sqrt(2*9.8*abs(x(3)-x(1)));
 end
 
 plot(t,x1,'b',t,r1,'--r')
@@ -100,3 +109,14 @@ grid on
 xlabel('Time(s)')
 ylabel('l_{3}(m)')
 title('Tank Level 3')
+
+
+%-----caudales entre tuberias-----
+figure
+subplot(2,1,1)
+plot(t,q13,'k')
+grid on
+xlabel('Time(s)')
+ylabel('q_{13}(m3/seg)')
+legend('Caudal 13')
+title('Caudales entre tuberias')
