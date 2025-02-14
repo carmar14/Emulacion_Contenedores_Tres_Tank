@@ -136,3 +136,59 @@ xlabel('Time(s)')
 ylabel('q_{20}(m3/seg)')
 legend('Caudal 20')
 title('Caudal de salida')
+
+
+%------animacion a partir de la dinamica-----
+%Tanque animación
+lt=10; %largo de la tuberia de union
+at=2; %ancho de la tuberia de union
+figure
+l=length(t);
+C1 = 5; %S=0.01564
+C2 = C1;
+%Creación del tanque1
+x11=[0 0];
+y1=[0 x1(end)+1.15*x1(end)];
+x2_=[0 C1];
+y2=[0 0];
+x3=[C1 C1];
+y3=[0 x1(end)+1];
+%Creación del tanque2
+x12=[C1+lt C1+lt];
+y12=[0 x2(end)+1];
+x22=[C1+lt C1+lt+C2];
+y22=[0 0];
+x32=[C1+lt+C2 C1+lt+C2];
+y32=[0 x2(end)+1];
+
+x=[0 C1 C1 0]; %para el fill
+line(x11,y1,'Color','black')%,'LineWidth',2)
+hold on
+line(x2_,y2,'Color','black')%,'LineWidth',2)
+line(x3,y3,'Color','black')%,'LineWidth',2)
+
+x20=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
+line(x12,y12,'Color','black')%,'LineWidth',2)
+line(x22,y22,'Color','black')%,'LineWidth',2)
+line(x32,y32,'Color','black')%,'LineWidth',2)
+
+
+
+%Tuberia de union entre los dos tanques
+%xu=[C1 C1+lt C1+lt C1];
+%yu=[0 0 at at];
+%fill(xu,yu,'k');
+%Llenado de tanque
+for i=1:l
+   
+    nively=[0 0 x1(i) x1(i)]; %para el fill
+    fill(x,nively,'b')
+    hold on
+    ylim([0 x1(end)+1.5])
+    
+    nively2=[0 0 x2(i) x2(i)];
+    fill(x20,nively2,'b')
+    
+    pause(0.1)
+   
+end
