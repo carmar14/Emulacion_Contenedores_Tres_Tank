@@ -6,8 +6,8 @@ close all
 %referencia acorde al punto de equilibrio Y0=[Y10; Y20;Y30]  Y10=0.400; Y20=0.200; Y30=0.300;
 %r1=[0.4*ones(1,250) 0.45*ones(1,1250) 0.38*ones(1,1000) 0.35*ones(1,501)];
 %r2=[0.15*ones(1,400) 0.225*ones(1,1600) 0.2*ones(1,1001)];
-r1=[0.4*ones(1,250) 0.45*ones(1,280) 0.38*ones(1,600) 0.35*ones(1,820) 0.48*ones(1,650)];
-r2=[0.15*ones(1,400) 0.35*ones(1,200) 0.2*ones(1,850) 0.3*ones(1,500) 0.25*ones(1,650)];
+r1=[0.4*ones(1,250) 0.45*ones(1,280) 0.38*ones(1,800) 0.35*ones(1,820) 0.48*ones(1,650)];
+r2=[0.15*ones(1,400) 0.35*ones(1,200) 0.2*ones(1,1050) 0.3*ones(1,500) 0.25*ones(1,650)];
 %r1=[0.35*ones(1,250) 0.42*ones(1,1250) 0.38*ones(1,1000) 0.47*ones(1,501)];
 %r2=[0.21*ones(1,400) 0.22*ones(1,1600) 0.18*ones(1,1001)];
 %vector de tiempo
@@ -152,10 +152,7 @@ C1 = 5; %S=0.01564
 C2 = C1;
 C3 = C1;
 
-t1=[0 C1 C1 0]; %para el fill
-t3=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
-%tanque 3
-t2=[C1+2*lt+C2 C1+2*lt+C2+C3 C1+2*lt+C2+C3 C1+2*lt+C2]; %para el fill
+
 
 %close all
 %Tuberia de union entre los dos tanques
@@ -168,23 +165,37 @@ for i=1:l
     plot(t(1:i),x1(1:i),'b',t(1:i),r1(1:i),'--r')
     hold on
     grid on
-    grid minor
     subplot(2,2,2)
     plot(t(1:i),x2(1:i),'b',t(1:i),r2(1:i),'--r')
     hold on
     grid on
-    grid minor
     subplot(2,2,3)
     plot(t(1:i),x3(1:i),'b')
     hold on
     grid on
-    grid minor
     subplot(2,2,4)
     hold off
-        
+    %Creación de los tanques
+    %tanque 1
+    t1=[0 C1 C1 0]; %para el fill
+    line([0 0],[0 h_tanque*1.15],'Color','black','LineWidth',2)
+    hold on
+    line([0 C1],[0 0],'Color','black','LineWidth',2)
+    line([C1 C1],[0 h_tanque*1.15],'Color','black','LineWidth',2)
+    %tanque 2
+    t3=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
+    line([C1+lt C1+lt],[0 h_tanque*1.15],'Color','black','LineWidth',2)
+    line([C1+lt C1+lt+C2],[0 0],'Color','black','LineWidth',2)
+    line([C1+lt+C2 C1+lt+C2],[0 h_tanque*1.15],'Color','black','LineWidth',2)
+    
+    
+    line([C1+2*lt+C2 C1+2*lt+C2],[0 h_tanque*1.15],'Color','black','LineWidth',2)
+    line([C1+2*lt+C2 C1+2*lt+C2+C3],[0 0],'Color','black','LineWidth',2)
+    line([C1+2*lt+C2+C3 C1+2*lt+C2+C3],[0 h_tanque*1.15],'Color','black','LineWidth',2)
+    
     nively=[0 0 x1(i) x1(i)]; %para el fill
     fill(t1,nively,'b','FaceAlpha',0.1)%,'EdgeColor','none')
-    hold on
+    %hold on
     ylim([0 h_tanque*1.15])
     
     nively2=[0 0 x3(i) x3(i)];
@@ -192,23 +203,6 @@ for i=1:l
 
     nively3=[0 0 x2(i) x2(i)];
     fill(t2,nively3,'b','FaceAlpha',0.1)%,'EdgeColor','none')
-    %Creación de los tanques
-    %tanque 1
-    t1=[0 C1 C1 0]; %para el fill
-    line([0 0],[0 h_tanque*1.15],'Color','black','LineWidth',2)
-    % hold on
-    line([0 C1],[0 0],'Color','black','LineWidth',2)
-    line([C1 C1],[0 h_tanque*1.15],'Color','black','LineWidth',2)
-    %tanque 2
-    t3=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
-    line([C1+lt C1+lt],[0 h_tanque*1.15],'Color','black','LineWidth',2)
-    line([C1+lt C1+lt+C2],[0 0],'Color','black','LineWidth',2)
-    line([C1+lt+C2 C1+lt+C2],[0 h_tanque*1.15],'Color','black','LineWidth',2)    
-    
-    line([C1+2*lt+C2 C1+2*lt+C2],[0 h_tanque*1.15],'Color','black','LineWidth',2)
-    line([C1+2*lt+C2 C1+2*lt+C2+C3],[0 0],'Color','black','LineWidth',2)
-    line([C1+2*lt+C2+C3 C1+2*lt+C2+C3],[0 h_tanque*1.15],'Color','black','LineWidth',2)
-    
     pause(0.001)
    
 end
