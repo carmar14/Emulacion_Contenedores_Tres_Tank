@@ -157,6 +157,11 @@ t3=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
 %tanque 3
 t2=[C1+2*lt+C2 C1+2*lt+C2+C3 C1+2*lt+C2+C3 C1+2*lt+C2]; %para el fill
 
+q1_3=[0 C1 C1 0]; %para el fill
+q3_2=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
+%tanque 3
+q2_0=[C1+2*lt+C2 C1+2*lt+C2+C3 C1+2*lt+C2+C3 C1+2*lt+C2]; %para el fill
+
 %close all
 %Tuberia de union entre los dos tanques
 %xu=[C1 C1+lt C1+lt C1];
@@ -166,16 +171,25 @@ t2=[C1+2*lt+C2 C1+2*lt+C2+C3 C1+2*lt+C2+C3 C1+2*lt+C2]; %para el fill
 for i=1:l
     subplot(2,2,1)
     plot(t(1:i),x1(1:i),'b',t(1:i),r1(1:i),'--r')
+    xlabel('Time(s)')
+    ylabel('l_{1}(m)')
+    title('Tank Level 1')
     hold on
     grid on
     grid minor
     subplot(2,2,2)
     plot(t(1:i),x2(1:i),'b',t(1:i),r2(1:i),'--r')
+    xlabel('Time(s)')
+    ylabel('l_{2}(m)')
+    title('Tank Level 2')
     hold on
     grid on
     grid minor
     subplot(2,2,3)
     plot(t(1:i),x3(1:i),'b')
+    xlabel('Time(s)')
+    ylabel('l_{3}(m)')
+    title('Tank Level 3')
     hold on
     grid on
     grid minor
@@ -208,6 +222,10 @@ for i=1:l
     line([C1+2*lt+C2 C1+2*lt+C2],[0 h_tanque*1.15],'Color','black','LineWidth',2)
     line([C1+2*lt+C2 C1+2*lt+C2+C3],[0 0],'Color','black','LineWidth',2)
     line([C1+2*lt+C2+C3 C1+2*lt+C2+C3],[0 h_tanque*1.15],'Color','black','LineWidth',2)
+    
+    xlabel('Three tank system')
+    ylabel('level(m)')
+    title('Levels of the three tanks')
     
     pause(0.001)
    
