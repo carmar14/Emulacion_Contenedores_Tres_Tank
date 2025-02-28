@@ -145,7 +145,7 @@ close all
 %Tanque animación
 h_tanque = max(max(max(x1),max(x2)),max(x3)); %altura de los tanques
 lt=2; %largo de la tuberia de union
-at=2; %ancho de la tuberia de union
+at=0.05; %ancho de la tuberia de union
 subplot(2,2,4)
 l=length(t);
 C1 = 5; %S=0.01564
@@ -157,10 +157,24 @@ t3=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
 %tanque 3
 t2=[C1+2*lt+C2 C1+2*lt+C2+C3 C1+2*lt+C2+C3 C1+2*lt+C2]; %para el fill
 
-q1_3=[0 C1 C1 0]; %para el fill
-q3_2=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
-%tanque 3
-q2_0=[C1+2*lt+C2 C1+2*lt+C2+C3 C1+2*lt+C2+C3 C1+2*lt+C2]; %para el fill
+%Caudales
+q13max = max(q13);
+q32max = max(q32);
+q20max = max(q20);
+q13min = min(q13);
+q32min = min(q32);
+q20min = min(q20);
+m1 = 1/(q13max-q13min);
+m2 = 1/(q32max-q32min);
+m3 = 1/(q20max-q20min);
+b1 = 1-m1*q13max;
+b2 = 1-m2*q32max;
+b3 = 1-m3*q20max;
+
+% q1_3=[0 C1 C1 0]; %para el fill
+% q3_2=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
+% %tanque 3
+% q2_0=[C1+2*lt+C2 C1+2*lt+C2+C3 C1+2*lt+C2+C3 C1+2*lt+C2]; %para el fill
 
 %close all
 %Tuberia de union entre los dos tanques
@@ -206,15 +220,43 @@ for i=1:l
 
     nively3=[0 0 x2(i) x2(i)];
     fill(t2,nively3,'b','FaceAlpha',0.1)%,'EdgeColor','none')
+
+    %caudal en las tuberias
+    tuberia13=[C1 C1+lt C1+lt C1];
+    p1 = m1*q13(i)+b1;
+    p2 = m2*q32(i)+b2;
+    p3 = m3*q20(i)+b3;
+
+    if q13(i) >=0        
+        fill(tuberia13,[0 0 at at],'b','FaceAlpha',p1)%,'EdgeColor','none')
+    else
+        fill(tuberia13,[0 0 at at],'g','FaceAlpha',p1)
+    end
+
+    tuberia32=[C1+C2+lt C1+C2+2*lt C1+C2+2*lt C1+C2+lt];
+    if q32(i) >=0        
+        fill(tuberia32,[0 0 at at],'b','FaceAlpha',p2)%,'EdgeColor','none')
+    else        
+        fill(tuberia32,[0 0 at at],'g','FaceAlpha',abs(p2))
+    end
+
+    tuberia20=[C1+C2+C3+2*lt C1+C2+C3+3*lt C1+C2+C3+3*lt C1+C2+C3+2*lt];
+    if q20(i) >=0        
+        fill(tuberia20,[0 0 at at],'b','FaceAlpha',p3)%,'EdgeColor','none')
+    else
+        fill(tuberia20,[0 0 at at],'g','FaceAlpha',p3)
+    end
+  
+    
     %Creación de los tanques
     %tanque 1
-    t1=[0 C1 C1 0]; %para el fill
+    
     line([0 0],[0 h_tanque*1.15],'Color','black','LineWidth',2)
     % hold on
     line([0 C1],[0 0],'Color','black','LineWidth',2)
     line([C1 C1],[0 h_tanque*1.15],'Color','black','LineWidth',2)
     %tanque 2
-    t3=[C1+lt C1+lt+C2 C1+lt+C2 C1+lt]; %para el fill
+    
     line([C1+lt C1+lt],[0 h_tanque*1.15],'Color','black','LineWidth',2)
     line([C1+lt C1+lt+C2],[0 0],'Color','black','LineWidth',2)
     line([C1+lt+C2 C1+lt+C2],[0 h_tanque*1.15],'Color','black','LineWidth',2)    
@@ -222,7 +264,18 @@ for i=1:l
     line([C1+2*lt+C2 C1+2*lt+C2],[0 h_tanque*1.15],'Color','black','LineWidth',2)
     line([C1+2*lt+C2 C1+2*lt+C2+C3],[0 0],'Color','black','LineWidth',2)
     line([C1+2*lt+C2+C3 C1+2*lt+C2+C3],[0 h_tanque*1.15],'Color','black','LineWidth',2)
-    
+
+    %tuberias
+    %union 13
+    line([C1 C1+lt],[at at],'Color','black','LineWidth',2)
+    line([C1 C1+lt],[0 0],'Color','black','LineWidth',2)
+    %union 32
+    line([C1+C2+lt C1+C2+2*lt],[at at],'Color','black','LineWidth',2)
+    line([C1+C2+lt C1+C2+2*lt],[0 0],'Color','black','LineWidth',2)
+    %union 20
+    line([C1+C2+C3+2*lt C1+C2+C3+3*lt],[at at],'Color','black','LineWidth',2)
+    line([C1+C2+C3+2*lt C1+C2+C3+3*lt],[0 0],'Color','black','LineWidth',2)
+
     xlabel('Three tank system')
     ylabel('level(m)')
     title('Levels of the three tanks')
