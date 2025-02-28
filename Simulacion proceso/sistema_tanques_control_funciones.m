@@ -190,7 +190,7 @@ for i=1:l
     title('Tank Level 1')
     hold on
     grid on
-    grid minor
+    %grid minor
     subplot(2,2,2)
     plot(t(1:i),x2(1:i),'b',t(1:i),r2(1:i),'--r')
     xlabel('Time(s)')
@@ -198,7 +198,7 @@ for i=1:l
     title('Tank Level 2')
     hold on
     grid on
-    grid minor
+    %grid minor
     subplot(2,2,3)
     plot(t(1:i),x3(1:i),'b')
     xlabel('Time(s)')
@@ -206,7 +206,7 @@ for i=1:l
     title('Tank Level 3')
     hold on
     grid on
-    grid minor
+    %grid minor
     subplot(2,2,4)
     hold off
         
