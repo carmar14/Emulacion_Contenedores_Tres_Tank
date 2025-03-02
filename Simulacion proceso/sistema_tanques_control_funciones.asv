@@ -190,7 +190,7 @@ for i=1:l
     title('Tank Level 1')
     hold on
     grid on
-    %grid minor
+    grid minor
     subplot(2,2,2)
     plot(t(1:i),x2(1:i),'b',t(1:i),r2(1:i),'--r')
     xlabel('Time(s)')
@@ -198,7 +198,7 @@ for i=1:l
     title('Tank Level 2')
     hold on
     grid on
-    %grid minor
+    grid minor
     subplot(2,2,3)
     plot(t(1:i),x3(1:i),'b')
     xlabel('Time(s)')
@@ -206,7 +206,7 @@ for i=1:l
     title('Tank Level 3')
     hold on
     grid on
-    %grid minor
+    grid minor
     subplot(2,2,4)
     hold off
         
@@ -236,8 +236,9 @@ for i=1:l
     tuberia32=[C1+C2+lt C1+C2+2*lt C1+C2+2*lt C1+C2+lt];
     if q32(i) >=0        
         fill(tuberia32,[0 0 at at],'b','FaceAlpha',p2)%,'EdgeColor','none')
-    else        
-        fill(tuberia32,[0 0 at at],'g','FaceAlpha',abs(p2))
+    else
+        p2 = 
+        fill(tuberia32,[0 0 at at],'g','FaceAlpha',p2)
     end
 
     tuberia20=[C1+C2+C3+2*lt C1+C2+C3+3*lt C1+C2+C3+3*lt C1+C2+C3+2*lt];
