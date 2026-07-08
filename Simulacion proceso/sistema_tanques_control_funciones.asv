@@ -184,12 +184,10 @@ b3 = 1-m3*q20max;
 %Llenado de tanque
 
 % 2. Crear un archivo GIF vacío inicial
-fig = figure;
 gifFileName = 'animacion.gif';
 exportgraphics(fig, gifFileName, 'Append', false);
 
-for i=1:10 %l
-    
+for i=1:l
     subplot(2,2,1)
     plot(t(1:i),x1(1:i),'b',t(1:i),r1(1:i),'--r')
     xlabel('Time(s)')
