@@ -140,7 +140,8 @@ ylabel('q_{20}(m3/seg)')
 legend('Caudal 20')
 title('Caudal de salida')
 
-close all
+%close all
+
 %------animacion a partir de la dinamica-----
 %Tanque animación
 h_tanque = max(max(max(x1),max(x2)),max(x3)); %altura de los tanques
@@ -188,7 +189,7 @@ fig = figure;
 gifFileName = 'animacion.gif';
 exportgraphics(fig, gifFileName, 'Append', false);
 
-for i=1:10 %l
+for i=1:l
     
     subplot(2,2,1)
     plot(t(1:i),x1(1:i),'b',t(1:i),r1(1:i),'--r')
